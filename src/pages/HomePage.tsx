@@ -7,9 +7,7 @@ import {
   Form,
 } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
-import AppNavbar from '../components/AppNavBar/AppNavBar';
 import BlogCard from '../components/BlogCard/BlogCard';
-import Footer from '../components/Footer/Footer';
 
 // Import the service & interface
 import { getBlogs, Blog } from '../api/blogService/BlogService';
