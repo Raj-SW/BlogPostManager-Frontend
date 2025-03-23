@@ -2,11 +2,11 @@
 import { useDispatch } from 'react-redux'
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { nativeLogin, nativeSignup } from '../../api/AuthenticationService/AuthService';
-import { setToken, setUser, authenticateUser } from '../../api/AuthenticationService/AuthSlice';
+import { nativeLogin, nativeSignup } from '../../api/authenticationService/AuthService';
+import { setToken, setUser, authenticateUser } from '../../api/authenticationService/AuthSlice';
 import LoginForm from './LoginForm';
 import SignupForm from './SignUpForm';
-import { AppDispatch } from '../../Service/StateManagement/store';
+import { AppDispatch } from '../../Service/statemanagement/store';
 
 interface AuthModalProps {
   show: boolean;

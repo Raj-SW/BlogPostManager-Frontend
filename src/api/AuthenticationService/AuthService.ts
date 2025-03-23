@@ -1,33 +1,5 @@
-import axiosInstance from '../Axios/Axios';
-
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-export interface SignupCredentials {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-
-export interface user {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  token: string;
-  userId: string;
-  userName: string;
-}
-
-export interface AuthResponse {
-  errorMesage: [];
-  isSuccess: boolean;
-  resultObject: user;
-}
+import { AuthResponse, LoginCredentials, SignupCredentials } from '../../models/authmodels/AuthModels';
+import axiosInstance from '../axios/Axios';
 
 export async function nativeLogin(credentials: LoginCredentials): Promise<AuthResponse> {
   try {
@@ -44,5 +16,14 @@ export async function nativeSignup(credentials: SignupCredentials): Promise<Auth
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || 'Signup failed');
+  }
+}
+
+export async function logOutAsync(): Promise<AuthResponse> {
+  try {
+    const response = await axiosInstance.post<AuthResponse>('/Authentication/LogoutAsync');
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'Log out failed');
   }
 }

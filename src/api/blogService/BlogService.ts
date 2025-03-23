@@ -1,4 +1,6 @@
-import axiosInstance from '../Axios/Axios';
+import { blogPost } from './../../models/blogmodel/blogModels';
+import axiosInstance from '../axios/Axios';
+import { multipleBlogResponse, singleBlogResponse } from '../../models/blogmodel/blogModels';
 import img1 from "../../assets/BlogImages/blogimg1.webp";
 import img2 from "../../assets/BlogImages/blogimage2.webp";
 import img3 from "../../assets/BlogImages/blogimg3.webp";
@@ -16,7 +18,6 @@ export interface Blog {
   createdAt: string;
 }
 
-// Dummy data array with local image imports
 const datablog: Blog[] = [
   {
     id: 1,
@@ -68,19 +69,48 @@ const datablog: Blog[] = [
   },
 ];
 
-// Simulate an API call by returning a promise
 export async function getBlogs(): Promise<Blog[]> {
   return new Promise((resolve) => {
-    // Simulate network delay
     setTimeout(() => {
       resolve(datablog);
     }, 500);
   });
 }
 
-export async function deleteBlog(blogId: number, token: string): Promise<void> {
+export async function getBlogAsync(blogId: string): Promise<singleBlogResponse> {
+   try {
+    const response = await axiosInstance.get<singleBlogResponse>(`Blog/GetBlogPostByIdAsync/${blogId}`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch blog');
+  }
+}
+
+export async function getAllBlogsAsync(): Promise<multipleBlogResponse> {
+   try {
+    const response = await axiosInstance.get<multipleBlogResponse>(`Blog/GetAllBlogPostsAsync`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'Failed to delete blog');
+  }
+}
+
+export async function deleteBlogByBlogIdAsync(blogId: number, token: string): Promise<void> {
   try {
     await axiosInstance.delete(`/Blog/DeletePostAsync/${blogId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'Failed to delete blog');
+  }
+}
+
+export async function updateBlogByBlogIdAsync(blogId: string, blogData: blogPost, token: string): Promise<void> {
+  try {
+    await axiosInstance.post(`/Blog/UpdatePostAsync/${blogId}`, {
+      data: {blogId, blogData},
       headers: {
         'Authorization': `Bearer ${token}`,
       },

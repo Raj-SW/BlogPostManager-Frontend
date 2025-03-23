@@ -12,7 +12,7 @@ import BlogCard from '../components/BlogCard/BlogCard';
 import Footer from '../components/Footer/Footer';
 
 // Import the service & interface
-import { getBlogs, Blog } from '../api/BlogApiService/BlogService';
+import { getBlogs, Blog } from '../api/blogService/BlogService';
 
 const HomePage: React.FC = () => {
   // Local state to store fetched blogs
@@ -37,9 +37,6 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      {/* ======== NAVBAR ======== */}
-      <AppNavbar />
-
       {/* ======== HERO SECTION ======== */}
       <section className="py-5 bg-light text-center">
         <Container>
@@ -183,9 +180,6 @@ const HomePage: React.FC = () => {
           </Form>
         </Container>
       </section>
-
-      {/* ======== FOOTER ======== */}
-      <Footer />
     </>
   );
 };

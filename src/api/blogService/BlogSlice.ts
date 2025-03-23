@@ -1,7 +1,7 @@
 // src/store/blogSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { deleteBlog } from './BlogService';
-import { RootState } from '../../Service/StateManagement/store';
+import { deleteBlogByBlogIdAsync } from './BlogService';
+import { RootState } from '../../Service/statemanagement/store';
 
 interface BlogState {
   deleting: boolean;
@@ -22,7 +22,7 @@ export const deleteBlogAsync = createAsyncThunk<void, number, { state: RootState
       return thunkAPI.rejectWithValue('User not authenticated');
     }
     try {
-      await deleteBlog(blogId, token);
+      await deleteBlogByBlogIdAsync(blogId, token);
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.message);
     }
