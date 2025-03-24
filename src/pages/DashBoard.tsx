@@ -2,48 +2,45 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Form, Tabs, Tab } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
-import { Blog, getBlogs } from "../api/blogService/BlogService";
-import { useNavigate } from "react-router-dom";
+import { getAllSelfBlogsAsync } from "../api/blogService/BlogService";
 import CreateEditBlogPost from "../components/CreateEditBlog/CreateEditBlog";
 import UserBlogsTable from "../components/UserBlogsTable/UserBlogsTable";
+import { blogPost } from "../models/blogmodel/blogModels";
 
 const DashBoard: React.FC = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogs, setBlogs] = useState<blogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   // Fetch blogs from service on mount
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       try {
-        const data = await getBlogs();
-        setBlogs(data);
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("No token found. Please log in.");
+        }
+        const data = await getAllSelfBlogsAsync(token);
+        setBlogs(data.resultObject);
       } catch (err: any) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     }
+
     fetchData();
   }, []);
 
   // Handlers for blog actions
-  const handleEdit = (blogId: number) => {
-    navigate(`/CreateEditBlogPost?blogId=${blogId}`);
-  };
-
-  const handleDelete = (blogId: number) => {
-    console.log(`Delete clicked for blog ${blogId}`);
-  };
-
-  const handleSetInactive = (blogId: number) => {
-    console.log(`Set inactive clicked for blog ${blogId}`);
-  };
+  const handleEdit = (blogId: string) => {};
+  const handleDelete = (blogId: string) => {};
+  const handleSetInactive = (blogId: string) => {};
+  const handleOnView = (blogPostDocumentId: string) => {};
 
   return (
     <>
-      {/* ======== HERO SECTION ======== */}
       <section className="py-5 bg-light text-center">
         <Container>
           <h1 className="display-5 fw-bold mb-3">@User name here</h1>
@@ -90,6 +87,7 @@ const DashBoard: React.FC = () => {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 onSetInactive={handleSetInactive}
+                onView={handleOnView}
               />
             </Tab>
             <Tab eventKey="createBlog" title="Create Blog">

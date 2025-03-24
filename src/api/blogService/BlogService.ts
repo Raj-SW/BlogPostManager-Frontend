@@ -1,81 +1,50 @@
-import { blogPost } from './../../models/blogmodel/blogModels';
 import axiosInstance from '../axios/Axios';
-import { multipleBlogResponse, singleBlogResponse } from '../../models/blogmodel/blogModels';
-import img1 from "../../assets/BlogImages/blogimg1.webp";
-import img2 from "../../assets/BlogImages/blogimage2.webp";
-import img3 from "../../assets/BlogImages/blogimg3.webp";
-import img4 from "../../assets/BlogImages/blogimg4.jpg";
-import img5 from "../../assets/BlogImages/blogimg5.webp";
-import img6 from "../../assets/BlogImages/blogimg6.webp";
+import { multipleBlogResponse, singleBlogResponse, blogPost } from '../../models/blogmodel/blogModels';
 
-// Blog interface
-export interface Blog {
-  id: number;
-  title: string;
-  excerpt: string;
-  image: string;
-  alt: string;
-  createdAt: string;
+export async function getAllBlogsAsync(): Promise<multipleBlogResponse> {
+   try {
+    const response = await axiosInstance.get<multipleBlogResponse>(`Blog/GetAllBlogPostsAsync`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'Failed to delete blog');
+  }
 }
 
-const datablog: Blog[] = [
-  {
-    id: 1,
-    title: "Why You Should Try a Digital Detox",
-    excerpt: "Taking a break from screens can boost your mood and creativity...",
-    image: img1,
-    alt: "Digital Detox",
-    createdAt: "2025-03-01",
-  },
-  {
-    id: 2,
-    title: "5 Tips for Mindful Mornings",
-    excerpt: "Kickstart your day with simple mindfulness practices...",
-    image: img2,
-    alt: "Mindful Mornings",
-    createdAt: "2025-03-05",
-  },
-  {
-    id: 3,
-    title: "Nature Retreats for Rest and Rejuvenation",
-    excerpt: "Explore cabins and retreats that help you disconnect...",
-    image: img3,
-    alt: "Nature Retreat",
-    createdAt: "2025-03-10",
-  },
-  {
-    id: 4,
-    title: "How to Stay Productive Without Burning Out",
-    excerpt: "Balance your workload and your wellness with these proven tips...",
-    image: img4,
-    alt: "Productivity Tips",
-    createdAt: "2025-03-12",
-  },
-  {
-    id: 5,
-    title: "Unplug for Better Sleep",
-    excerpt: "Learn how ditching devices before bed can dramatically improve your rest...",
-    image: img5,
-    alt: "Better Sleep",
-    createdAt: "2025-03-15",
-  },
-  {
-    id: 6,
-    title: "Reconnecting with Hobbies in a Digital World",
-    excerpt: "From painting to pottery—unplug and rediscover offline joys...",
-    image: img6,
-    alt: "Offline Hobbies",
-    createdAt: "2025-03-20",
-  },
-];
+export async function createBlogPostAsync(
+  blogData: blogPost,
+  thumbnail: File | null,
+  token: string
+): Promise<void> {
+  const formData = new FormData();
 
-export async function getBlogs(): Promise<Blog[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(datablog);
-    }, 500);
+  // Append "simple" fields
+  formData.append("title", blogData.title);
+  formData.append("excerpt", blogData.excerpt);
+  formData.append("content", blogData.content);
+
+  // Append each tag under the same field name ("tags")
+  blogData.tags.forEach(tag => {
+    formData.append("tags", tag);
   });
+
+  // Append file if we have one
+  if (thumbnail) {
+    // This must match 'public IFormFile file { get; set; }' in the model
+    formData.append("file", thumbnail);
+  }
+
+  try {
+    await axiosInstance.post("Blog/CreateBlogPostAsync", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data"
+      }
+    });
+  } catch (error: any) {
+    console.error(error)
+  }
 }
+
 
 export async function getBlogAsync(blogId: string): Promise<singleBlogResponse> {
    try {
@@ -86,12 +55,21 @@ export async function getBlogAsync(blogId: string): Promise<singleBlogResponse> 
   }
 }
 
-export async function getAllBlogsAsync(): Promise<multipleBlogResponse> {
-   try {
-    const response = await axiosInstance.get<multipleBlogResponse>(`Blog/GetAllBlogPostsAsync`);
+
+export async function getAllSelfBlogsAsync(token: string): Promise<multipleBlogResponse> {
+  try {
+    // Include the token in the Authorization header
+    const response = await axiosInstance.get<multipleBlogResponse>(
+      'Blog/GetAllBlogPostByUserNameAsync',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || 'Failed to delete blog');
+    throw new Error(error.response?.data?.message || 'Failed to fetch your blogs');
   }
 }
 

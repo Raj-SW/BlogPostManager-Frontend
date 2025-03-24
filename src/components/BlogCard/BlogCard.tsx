@@ -1,11 +1,11 @@
-import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import React from "react";
+import { Card, Button } from "react-bootstrap";
 
 export interface BlogCardProps {
-  image: string;
+  image?: string;
   title: string;
   excerpt: string;
-  alt: string;
+  alt?: string;
   onReadMore?: () => void;
 }
 
@@ -18,7 +18,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
 }) => {
   return (
     <Card className="h-100 border-0 shadow-sm">
-      <Card.Img variant="top" src={image} alt={alt} />
+      {image && <Card.Img variant="top" src={image} alt={alt} />}
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text className="text-muted">{excerpt}</Card.Text>

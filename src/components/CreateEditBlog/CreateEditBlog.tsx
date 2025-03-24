@@ -1,52 +1,104 @@
-// src/pages/CreateBlogPost.tsx
 import React, { useState, useRef } from "react";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Container, Form, Button, Row, Col, Alert } from "react-bootstrap";
+import { createBlogPostAsync } from "../../api/blogService/BlogService";
+import { blogPost } from "../../models/blogmodel/blogModels";
 
 const CreateEditBlogPost: React.FC = () => {
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [tags, setTags] = useState("");
   const [content, setContent] = useState("<p>Write your content here...</p>");
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
 
-  // A ref to the editable div, so we can read/update its HTML
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const editorRef = useRef<HTMLDivElement>(null);
 
-  // Apply formatting commands using document.execCommand()
   const applyFormat = (command: string, value?: string) => {
     document.execCommand(command, false, value);
-    // After applying the command, we can read the updated HTML from the editor
     if (editorRef.current) {
       setContent(editorRef.current.innerHTML);
     }
   };
 
-  // Whenever the user types or changes the editor, store the current HTML in state
   const handleEditorInput = () => {
     if (editorRef.current) {
       setContent(editorRef.current.innerHTML);
     }
   };
 
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const validateBlogPost = (): string => {
+    if (!title.trim()) return "Title is required.";
+    if (!excerpt.trim()) return "Excerpt is required.";
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = content;
+    if (!tempDiv.textContent?.trim()) return "Content is required.";
+    return "";
+  };
 
-    // The content state holds the current HTML from the editor
-    const blogPost = {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const validationError = validateBlogPost();
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setErrorMessage("User is not authenticated. Please log in.");
+      return;
+    }
+
+    const blogPostData: blogPost = {
       title,
       excerpt,
       content,
       tags: tags.split(",").map((tag) => tag.trim()),
+      blogPostDocumentId: null,
+      createdBy: "",
+      likes: 0,
+      isFeatured: false,
     };
 
-    console.log("Blog post submitted:", blogPost);
-    // TODO: Replace console.log with an API call or further processing
+    try {
+      await createBlogPostAsync(blogPostData, thumbnail, token);
+      setSuccessMessage("Blog post created successfully!");
+
+      setTitle("");
+      setExcerpt("");
+      setTags("");
+      setThumbnail(null);
+      setContent("<p>Write your content here...</p>");
+      if (editorRef.current) {
+        editorRef.current.innerHTML = "<p>Write your content here...</p>";
+      }
+    } catch (error: any) {
+      setErrorMessage(error.message || "Failed to create blog post.");
+    }
   };
 
   return (
     <Container className="my-5">
-      <h2 className="mb-4">Create a New Blog Post (No External Editor)</h2>
+      <h2 className="mb-4">Create a New Blog Post</h2>
+      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
       <Form onSubmit={handleSubmit}>
+        {/* Thumbnail Image Upload */}
+        <Form.Group controlId="thumbnail" className="mb-3">
+          <Form.Label>Thumbnail Image</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setThumbnail((e.target as HTMLInputElement).files?.[0] || null)
+            }
+          />
+        </Form.Group>
         <Form.Group controlId="blogTitle" className="mb-3">
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -70,7 +122,7 @@ const CreateEditBlogPost: React.FC = () => {
           />
         </Form.Group>
 
-        {/* ====== Toolbar ====== */}
+        {/* Toolbar */}
         <Row className="mb-2">
           <Col>
             <div className="d-flex gap-2">
@@ -94,12 +146,6 @@ const CreateEditBlogPost: React.FC = () => {
               </Button>
               <Button
                 variant="outline-secondary"
-                onClick={() => applyFormat("strikeThrough")}
-              >
-                <s>S</s>
-              </Button>
-              <Button
-                variant="outline-secondary"
                 onClick={() => applyFormat("insertOrderedList")}
               >
                 OL
@@ -110,29 +156,11 @@ const CreateEditBlogPost: React.FC = () => {
               >
                 UL
               </Button>
-              <Button
-                variant="outline-secondary"
-                onClick={() => applyFormat("justifyLeft")}
-              >
-                Left
-              </Button>
-              <Button
-                variant="outline-secondary"
-                onClick={() => applyFormat("justifyCenter")}
-              >
-                Center
-              </Button>
-              <Button
-                variant="outline-secondary"
-                onClick={() => applyFormat("justifyRight")}
-              >
-                Right
-              </Button>
             </div>
           </Col>
         </Row>
 
-        {/* ====== Editable Area ====== */}
+        {/* Editable Area */}
         <Form.Group controlId="blogContent" className="mb-3">
           <Form.Label>Blog Content</Form.Label>
           <div

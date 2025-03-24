@@ -1,31 +1,34 @@
-// src/components/AppNavBar/AppNavbar.tsx
-
-import React, { useState } from 'react';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
-import { FiUser } from 'react-icons/fi';
-import AuthModal from '../Authentication/AuthModal';
-import { useAppSelector, RootState, AppDispatch } from '../../Service/statemanagement/store';
-import { useDispatch } from 'react-redux';
-import { clearAuthState } from '../../api/authenticationService/AuthSlice'
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { FiUser } from "react-icons/fi";
+import AuthModal from "../Authentication/AuthModal";
+import {
+  useAppSelector,
+  RootState,
+  AppDispatch,
+} from "../../Service/statemanagement/store";
+import { useDispatch } from "react-redux";
+import { clearAuthState } from "../../api/authenticationService/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const AppNavbar: React.FC = () => {
-
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleOpenModal = () => setShowAuthModal(true);
   const handleCloseModal = () => setShowAuthModal(false);
 
   var userName = useAppSelector((state: RootState) => state.auth.user.userName);
-  var isAuthenticated = useAppSelector((state: RootState) => state.auth.isAuthenticated);
+  var isAuthenticated = useAppSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSignOut = () => {
     dispatch(clearAuthState());
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   };
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -35,7 +38,7 @@ const AppNavbar: React.FC = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-               {!isAuthenticated ? (
+              {!isAuthenticated ? (
                 <Nav.Link onClick={handleOpenModal}>
                   <FiUser className="me-1" />
                   Login
@@ -51,11 +54,7 @@ const AppNavbar: React.FC = () => {
                   id="user-dropdown"
                   align="end"
                 >
-                  <NavDropdown.Item onClick={ () => navigate('/profile')}>
-                    View Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item onClick={() => navigate('/dashboard')}>
+                  <NavDropdown.Item onClick={() => navigate("/dashboard")}>
                     Dashboard
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
@@ -69,7 +68,6 @@ const AppNavbar: React.FC = () => {
         </Container>
       </Navbar>
 
-      {/* Auth Modal */}
       <AuthModal show={showAuthModal} onHide={handleCloseModal} />
     </>
   );

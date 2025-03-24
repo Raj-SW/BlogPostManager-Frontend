@@ -1,16 +1,17 @@
 // src/components/AllBlogs/AllBlogs.tsx
 import React from "react";
 import { Table, Button, Pagination } from "react-bootstrap";
-import { FaEdit, FaTrash, FaToggleOff } from "react-icons/fa";
-import { Blog } from "../../api/blogService/BlogService";
+import { FaEdit, FaTrash, FaToggleOff, FaEye } from "react-icons/fa";
+import { blogPost } from "../../models/blogmodel/blogModels";
 
 interface UserBlogsTableProps {
-  blogs: Blog[];
+  blogs: blogPost[];
   loading: boolean;
   error: string | null;
-  onEdit: (blogId: number) => void;
-  onDelete: (blogId: number) => void;
-  onSetInactive: (blogId: number) => void;
+  onEdit: (blogId: string) => void;
+  onDelete: (blogId: string) => void;
+  onSetInactive: (blogId: string) => void;
+  onView(blogPostDocumentId: string): void;
 }
 
 const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
@@ -20,6 +21,7 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
   onEdit,
   onDelete,
   onSetInactive,
+  onView,
 }) => {
   return (
     <div>
@@ -39,11 +41,10 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
             </thead>
             <tbody>
               {blogs.map((blog) => (
-                <tr key={blog.id}>
+                <tr key={blog.blogPostDocumentId}>
                   <td>
                     <img
-                      src={blog.image}
-                      alt={blog.alt}
+                      src={blog.thumbNailLink}
                       style={{ width: "80px", height: "auto" }}
                     />
                   </td>
@@ -53,7 +54,7 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
                       variant="outline-primary"
                       size="sm"
                       className="me-2"
-                      onClick={() => onEdit(blog.id)}
+                      onClick={() => onEdit(blog.blogPostDocumentId)}
                     >
                       <FaEdit />
                     </Button>
@@ -61,16 +62,24 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
                       variant="outline-danger"
                       size="sm"
                       className="me-2"
-                      onClick={() => onDelete(blog.id)}
+                      onClick={() => onDelete(blog.blogPostDocumentId)}
                     >
                       <FaTrash />
                     </Button>
                     <Button
                       variant="outline-secondary"
                       size="sm"
-                      onClick={() => onSetInactive(blog.id)}
+                      onClick={() => onSetInactive(blog.blogPostDocumentId)}
                     >
                       <FaToggleOff />
+                    </Button>
+                    <Button
+                      variant="outline-info"
+                      size="sm"
+                      className="ms-2"
+                      onClick={() => onView(blog.blogPostDocumentId)}
+                    >
+                      <FaEye />
                     </Button>
                   </td>
                 </tr>

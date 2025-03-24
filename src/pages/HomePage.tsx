@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-} from 'react-bootstrap';
-import { FaSearch } from 'react-icons/fa';
-import BlogCard from '../components/BlogCard/BlogCard';
-
-// Import the service & interface
-import { getBlogs, Blog } from '../api/blogService/BlogService';
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
+import BlogCard from "../components/BlogCard/BlogCard";
+import { getAllBlogsAsync } from "../api/blogService/BlogService";
+import { blogPost } from "../models/blogmodel/blogModels";
 
 const HomePage: React.FC = () => {
-  // Local state to store fetched blogs
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogs, setBlogs] = useState<blogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,8 +14,8 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getBlogs();
-        setBlogs(data);
+        const data = await getAllBlogsAsync();
+        setBlogs(data.resultObject);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -39,13 +31,13 @@ const HomePage: React.FC = () => {
       <section className="py-5 bg-light text-center">
         <Container>
           <h1 className="display-5 fw-bold mb-3">Unplugged Journal</h1>
-          <p className="lead text-muted mx-auto" style={{ maxWidth: '600px' }}>
+          <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
             Everything you need to know about digital decluttering, wellbeing,
             and switching off every once in a while.
           </p>
 
           {/* Responsive Search Bar */}
-          <div className="mx-auto" style={{ maxWidth: '400px' }}>
+          <div className="mx-auto" style={{ maxWidth: "400px" }}>
             <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
               <Form.Control
                 type="text"
@@ -109,14 +101,15 @@ const HomePage: React.FC = () => {
               {!loading && !error && (
                 <Row className="g-4">
                   {blogs.map((blog) => (
-                    <Col md={6} lg={4} key={blog.id}>
+                    <Col md={6} lg={4} key={blog.blogPostDocumentId}>
                       <BlogCard
-                        image={blog.image}
+                        image={blog.thumbNailLink}
                         title={blog.title}
                         excerpt={blog.excerpt}
-                        alt={blog.alt}
                         onReadMore={() =>
-                          console.log(`Read more clicked for post ${blog.id}`)
+                          console.log(
+                            `Read more clicked for post ${blog.blogPostDocumentId}`
+                          )
                         }
                       />
                     </Col>
