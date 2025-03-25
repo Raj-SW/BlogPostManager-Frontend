@@ -46,15 +46,16 @@ export async function createBlogPostAsync(
 }
 
 
-export async function getBlogAsync(blogId: string): Promise<singleBlogResponse> {
-   try {
-    const response = await axiosInstance.get<singleBlogResponse>(`Blog/GetBlogPostByIdAsync/${blogId}`);
+export async function GetBlogPostByIdAsync(blogId: string): Promise<singleBlogResponse> {
+  try {
+    const response = await axiosInstance.get(`Blog/GetBlogPostByBlogPostIdAsync/${blogId}`, {
+      headers: {},
+    });
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || 'Failed to fetch blog');
+    throw new Error(error.response?.data?.message || "Failed to fetch blog");
   }
 }
-
 
 export async function getAllSelfBlogsAsync(token: string): Promise<multipleBlogResponse> {
   try {

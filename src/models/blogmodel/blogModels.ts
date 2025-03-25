@@ -4,7 +4,7 @@
   content: string;
   excerpt: string;
   createdBy: string;
-  createdDate?: Date;
+  createdDate: string;
   likes: number;
   isFeatured: boolean;
   tags: string[];

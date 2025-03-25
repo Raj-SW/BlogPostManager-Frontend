@@ -16,6 +16,7 @@ import ProfilePage from "./pages/ProfilePage";
 import CreateEditBlogPostPage from "./pages/CreateEditBlogPostPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
+import IndividualBlogPostPage from "./pages/IndividualBlogPostPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "dashboard", element: <DashBoard /> },
       { path: "profile", element: <ProfilePage /> },
       { path: "createEditBlogPost", element: <CreateEditBlogPostPage /> },
+      { path: "blog/:id", element: <IndividualBlogPostPage /> },
       { path: "unauthorized", element: <UnauthorizedPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],

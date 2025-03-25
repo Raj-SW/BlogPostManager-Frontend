@@ -9,6 +9,7 @@ import {
 import CreateEditBlogPost from "../components/CreateEditBlog/CreateEditBlog";
 import UserBlogsTable from "../components/UserBlogsTable/UserBlogsTable";
 import { blogPost } from "../models/blogmodel/blogModels";
+import { useNavigate } from "react-router-dom";
 
 const DashBoard: React.FC = () => {
   const [blogs, setBlogs] = useState<blogPost[]>([]);
@@ -17,6 +18,7 @@ const DashBoard: React.FC = () => {
   const [token, setToken] = React.useState<string | null>(
     localStorage.getItem("token")
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -49,7 +51,9 @@ const DashBoard: React.FC = () => {
     }
   };
 
-  const handleOnView = (blogPostDocumentId: string) => {};
+  const handleOnView = (blogPostDocumentId: string) => {
+    navigate(`/blog/${blogPostDocumentId}`);
+  };
 
   return (
     <>
@@ -97,7 +101,7 @@ const DashBoard: React.FC = () => {
                 error={null}
                 onEdit={(id) => console.log("edit", id)}
                 onDelete={handleDelete}
-                onView={(id) => console.log("view", id)}
+                onView={(id) => handleOnView(id)}
               />
             </Tab>
             <Tab eventKey="createBlog" title="Create Blog">
