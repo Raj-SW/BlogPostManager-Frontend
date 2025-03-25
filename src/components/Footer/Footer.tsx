@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Footer: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         <Row className="align-items-center">
           <Col md={6} className="mb-3 mb-md-0">
             <p className="text-muted small mb-0">
-              &copy; {new Date().getFullYear()} Unplugged Journal. All rights reserved.
+              &copy; {new Date().getFullYear()} BlogPost. All rights reserved.
             </p>
           </Col>
           <Col md={6}>

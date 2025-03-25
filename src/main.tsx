@@ -8,12 +8,9 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import store, { persistor } from "./Service/statemanagement/store";
 
-// Import your page components
 import App from "./App";
 import HomePage from "./pages/HomePage";
 import DashBoard from "./pages/DashBoard";
-import ProfilePage from "./pages/ProfilePage";
-import CreateEditBlogPostPage from "./pages/CreateEditBlogPostPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import IndividualBlogPostPage from "./pages/IndividualBlogPostPage";
@@ -26,8 +23,6 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "home", element: <HomePage /> },
       { path: "dashboard", element: <DashBoard /> },
-      { path: "profile", element: <ProfilePage /> },
-      { path: "createEditBlogPost", element: <CreateEditBlogPostPage /> },
       { path: "blog/:id", element: <IndividualBlogPostPage /> },
       { path: "unauthorized", element: <UnauthorizedPage /> },
       { path: "*", element: <NotFoundPage /> },

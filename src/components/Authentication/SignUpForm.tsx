@@ -1,10 +1,11 @@
 // src/components/AuthModal/SignupForm.tsx
 
-import React from 'react';
-import { Form, Button, InputGroup } from 'react-bootstrap';
-import { FaEnvelope, FaKey, FaEye, FaEyeSlash } from 'react-icons/fa';
+import React from "react";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { FaEnvelope, FaKey, FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface SignupFormProps {
+  username: string; // <-- New field
   firstName: string;
   lastName: string;
   email: string;
@@ -12,6 +13,7 @@ interface SignupFormProps {
   confirmPassword: string;
   showPassword: boolean;
   showConfirmPassword: boolean;
+  onUsernameChange: (value: string) => void; // <-- New handler
   onFirstNameChange: (value: string) => void;
   onLastNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;
@@ -23,6 +25,7 @@ interface SignupFormProps {
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({
+  username,
   firstName,
   lastName,
   email,
@@ -30,6 +33,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
   confirmPassword,
   showPassword,
   showConfirmPassword,
+  onUsernameChange,
   onFirstNameChange,
   onLastNameChange,
   onEmailChange,
@@ -41,6 +45,17 @@ const SignupForm: React.FC<SignupFormProps> = ({
 }) => {
   return (
     <Form onSubmit={onSubmit}>
+      <Form.Group className="mb-3" controlId="signupUsername">
+        <Form.Label>Username</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => onUsernameChange(e.target.value)}
+          required
+        />
+      </Form.Group>
+
       <Form.Group className="mb-3" controlId="signupFirstName">
         <Form.Label>First Name</Form.Label>
         <Form.Control
@@ -86,13 +101,16 @@ const SignupForm: React.FC<SignupFormProps> = ({
             <FaKey />
           </InputGroup.Text>
           <Form.Control
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
             required
           />
-          <InputGroup.Text style={{ cursor: 'pointer' }} onClick={onTogglePassword}>
+          <InputGroup.Text
+            style={{ cursor: "pointer" }}
+            onClick={onTogglePassword}
+          >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </InputGroup.Text>
         </InputGroup>
@@ -105,13 +123,16 @@ const SignupForm: React.FC<SignupFormProps> = ({
             <FaKey />
           </InputGroup.Text>
           <Form.Control
-            type={showConfirmPassword ? 'text' : 'password'}
+            type={showConfirmPassword ? "text" : "password"}
             placeholder="Re-enter Password"
             value={confirmPassword}
             onChange={(e) => onConfirmPasswordChange(e.target.value)}
             required
           />
-          <InputGroup.Text style={{ cursor: 'pointer' }} onClick={onToggleConfirmPassword}>
+          <InputGroup.Text
+            style={{ cursor: "pointer" }}
+            onClick={onToggleConfirmPassword}
+          >
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
           </InputGroup.Text>
         </InputGroup>

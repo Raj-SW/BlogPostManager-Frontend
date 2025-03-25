@@ -1,4 +1,4 @@
-import { AuthResponse, LoginCredentials, SignupCredentials } from '../../models/authmodels/AuthModels';
+import { AuthResponse, LoginCredentials, SignupCredentials } from '../../models/authmodels/authModels';
 import axiosInstance from '../axios/Axios';
 
 export async function nativeLogin(credentials: LoginCredentials): Promise<AuthResponse> {
@@ -12,9 +12,10 @@ export async function nativeLogin(credentials: LoginCredentials): Promise<AuthRe
 
 export async function nativeSignup(credentials: SignupCredentials): Promise<AuthResponse> {
   try {
-    const response = await axiosInstance.post<AuthResponse>('/Authentication/NativeRegister', credentials);
+    const response = await axiosInstance.post<AuthResponse>('Authentication/NativeRegister', credentials);
     return response.data;
   } catch (error: any) {
+    console.log(error)
     throw new Error(error.response?.data?.message || 'Signup failed');
   }
 }

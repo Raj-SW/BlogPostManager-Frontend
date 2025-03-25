@@ -34,10 +34,9 @@ const HomePage: React.FC = () => {
     <>
       <section className="py-5 bg-light text-center">
         <Container>
-          <h1 className="display-5 fw-bold mb-3">Unplugged Journal</h1>
+          <h1 className="display-5 fw-bold mb-3">BlogPost</h1>
           <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
-            Everything you need to know about digital decluttering, wellbeing,
-            and switching off every once in a while.
+            Welcome to BlogPost, where you can create and share your blogs.
           </p>
 
           {/* Responsive Search Bar */}
@@ -60,41 +59,7 @@ const HomePage: React.FC = () => {
       <main className="py-4">
         <Container>
           <Row>
-            {/* Sidebar: Tags / Categories */}
-            <Col md={3} className="mb-4">
-              <div className="border rounded p-3">
-                <h5>All Tags</h5>
-                <ul className="list-unstyled mt-3">
-                  <li>
-                    <a href="#" className="text-decoration-none">
-                      Health &amp; Wellbeing
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-decoration-none">
-                      Productivity
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-decoration-none">
-                      Mindfulness
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-decoration-none">
-                      Digital Detox Diaries
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-decoration-none">
-                      Outdoor Adventures
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </Col>
-
-            <Col md={9}>
+            <Col md={12}>
               <h5 className="mb-4">All posts</h5>
 
               {loading && <p>Loading blogs...</p>}
@@ -116,39 +81,6 @@ const HomePage: React.FC = () => {
                   ))}
                 </Row>
               )}
-
-              {/* Pagination */}
-              <div className="d-flex justify-content-center mt-4">
-                <nav>
-                  <ul className="pagination">
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        Previous
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        1
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        3
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
             </Col>
           </Row>
         </Container>
@@ -156,9 +88,9 @@ const HomePage: React.FC = () => {
 
       <section className="py-5 bg-white text-center">
         <Container>
-          <h2 className="mb-3">Tune Out. Every Tuesday.</h2>
+          <h2 className="mb-3">Tune in for weekly blogs.</h2>
           <p className="mb-4 text-muted">
-            Join 20,000+ readers for topics, tips, and hacks about wellness.
+            Join us to get frequent updates on blogs.
           </p>
           <Form className="d-inline-flex flex-wrap justify-content-center gap-2">
             <Form.Control

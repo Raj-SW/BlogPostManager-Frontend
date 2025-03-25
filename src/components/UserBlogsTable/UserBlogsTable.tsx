@@ -76,17 +76,6 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
               ))}
             </tbody>
           </Table>
-
-          <Pagination className="d-flex justify-content-center mt-4">
-            <Pagination.First />
-            <Pagination.Prev />
-            <Pagination.Item active>{1}</Pagination.Item>
-            <Pagination.Item>{2}</Pagination.Item>
-            <Pagination.Item>{3}</Pagination.Item>
-            <Pagination.Ellipsis />
-            <Pagination.Next />
-            <Pagination.Last />
-          </Pagination>
         </>
       )}
     </div>

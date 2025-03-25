@@ -63,6 +63,7 @@ const CreateEditBlogPost: React.FC = () => {
       createdBy: "",
       likes: 0,
       isFeatured: false,
+      createdDate: "",
     };
 
     try {

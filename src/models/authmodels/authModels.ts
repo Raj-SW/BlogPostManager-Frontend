@@ -4,12 +4,13 @@ export interface LoginCredentials {
 }
 
 export interface SignupCredentials {
+  userName: string;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
-
 export interface user {
   id: number;
   email: string;

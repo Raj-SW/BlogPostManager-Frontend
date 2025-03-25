@@ -10,24 +10,38 @@ import CreateEditBlogPost from "../components/CreateEditBlog/CreateEditBlog";
 import UserBlogsTable from "../components/UserBlogsTable/UserBlogsTable";
 import { blogPost } from "../models/blogmodel/blogModels";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector, RootState } from "../Service/statemanagement/store";
 
 const DashBoard: React.FC = () => {
   const [blogs, setBlogs] = useState<blogPost[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [token, setToken] = React.useState<string | null>(
-    localStorage.getItem("token")
-  );
   const navigate = useNavigate();
 
+  // Retrieve the token from local storage
+  const token = localStorage.getItem("token");
+
+  // Retrieve user details from Redux (if available) or fallback to localStorage
+  const user = useAppSelector((state: RootState) => state.auth.user);
+  const storedUserName =
+    user?.userName || localStorage.getItem("userName") || "User name here";
+  const storedFirstName =
+    user?.firstName || localStorage.getItem("firstName") || "First name";
+  const storedLastName =
+    user?.lastName || localStorage.getItem("lastName") || "Last name";
+  const storedEmail =
+    user?.email || localStorage.getItem("email") || "Email here";
+
   useEffect(() => {
-    async function fetchData() {
+    if (!token) {
+      // Navigate to unauthorized page if no token is present
+      navigate("/unauthorized");
+      return;
+    }
+
+    const fetchData = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("No token found. Please log in.");
-        }
         const data = await getAllSelfBlogsAsync(token);
         setBlogs(data.resultObject);
       } catch (err: any) {
@@ -35,17 +49,21 @@ const DashBoard: React.FC = () => {
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchData();
-  }, []);
+  }, [token, navigate]);
 
-  const handleEdit = (blogId: string) => {};
+  const handleEdit = (blogId: string) => {
+    // Implement edit logic here if needed
+  };
 
   const handleDelete = async (blogId: string) => {
     try {
-      await deleteBlogByBlogIdAsync(blogId, token);
-      setBlogs((prev) => prev.filter((b) => b.blogPostDocumentId !== blogId));
+      await deleteBlogByBlogIdAsync(blogId, token!);
+      setBlogs((prev) =>
+        prev.filter((blog) => blog.blogPostDocumentId !== blogId)
+      );
     } catch (err: any) {
       console.error(err.message || "Error deleting blog");
     }
@@ -59,17 +77,18 @@ const DashBoard: React.FC = () => {
     <>
       <section className="py-5 bg-light text-center">
         <Container>
-          <h1 className="display-5 fw-bold mb-3">@User name here</h1>
-          <h3 className="display-6 fw-bold mb-3">
-            First name and last name here
-          </h3>
+          <h1 className="display-5 fw-bold mb-3">
+            Hello user @{storedUserName}
+          </h1>
+          {/* <h3 className="display-6 fw-bold mb-3">
+            {storedFirstName} {storedLastName}
+          </h3> */}
           <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
-            User About here
+            Welcome to your dashboard.
           </p>
           <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
-            Email here
+            {storedEmail}
           </p>
-
           {/* Responsive Search Bar */}
           <div className="mx-auto" style={{ maxWidth: "400px" }}>
             <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
@@ -89,26 +108,19 @@ const DashBoard: React.FC = () => {
 
       <main className="py-4">
         <Container>
-          <Tabs
-            defaultActiveKey="myBlogs"
-            id="uncontrolled-tab-example"
-            className="mb-3"
-          >
+          <Tabs defaultActiveKey="myBlogs" id="dashboard-tabs" className="mb-3">
             <Tab eventKey="myBlogs" title="My Blogs">
               <UserBlogsTable
                 blogs={blogs}
-                loading={false}
-                error={null}
-                onEdit={(id) => console.log("edit", id)}
+                loading={loading}
+                error={error}
+                onEdit={handleEdit}
                 onDelete={handleDelete}
-                onView={(id) => handleOnView(id)}
+                onView={handleOnView}
               />
             </Tab>
             <Tab eventKey="createBlog" title="Create Blog">
               <CreateEditBlogPost />
-            </Tab>
-            <Tab eventKey="profile" title="Profile">
-              Tab content for Profile
             </Tab>
           </Tabs>
         </Container>
