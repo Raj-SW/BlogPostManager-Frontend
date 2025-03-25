@@ -4,13 +4,14 @@ import { FaSearch } from "react-icons/fa";
 import BlogCard from "../components/BlogCard/BlogCard";
 import { getAllBlogsAsync } from "../api/blogService/BlogService";
 import { blogPost } from "../models/blogmodel/blogModels";
+import { useNavigate } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const [blogs, setBlogs] = useState<blogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  // Fetch blogs from "service" on mount
   useEffect(() => {
     async function fetchData() {
       try {
@@ -25,9 +26,12 @@ const HomePage: React.FC = () => {
     fetchData();
   }, []);
 
+  const handleonReadMore = (blogPostDocumentId: string) => {
+    navigate(`/blog/${blogPostDocumentId}`);
+  };
+
   return (
     <>
-      {/* ======== HERO SECTION ======== */}
       <section className="py-5 bg-light text-center">
         <Container>
           <h1 className="display-5 fw-bold mb-3">Unplugged Journal</h1>
@@ -53,7 +57,6 @@ const HomePage: React.FC = () => {
         </Container>
       </section>
 
-      {/* ======== MAIN CONTENT ======== */}
       <main className="py-4">
         <Container>
           <Row>
@@ -91,7 +94,6 @@ const HomePage: React.FC = () => {
               </div>
             </Col>
 
-            {/* Blog Posts */}
             <Col md={9}>
               <h5 className="mb-4">All posts</h5>
 
@@ -107,9 +109,7 @@ const HomePage: React.FC = () => {
                         title={blog.title}
                         excerpt={blog.excerpt}
                         onReadMore={() =>
-                          console.log(
-                            `Read more clicked for post ${blog.blogPostDocumentId}`
-                          )
+                          handleonReadMore(blog.blogPostDocumentId)
                         }
                       />
                     </Col>
@@ -154,7 +154,6 @@ const HomePage: React.FC = () => {
         </Container>
       </main>
 
-      {/* ======== NEWSLETTER SECTION ======== */}
       <section className="py-5 bg-white text-center">
         <Container>
           <h2 className="mb-3">Tune Out. Every Tuesday.</h2>
