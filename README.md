@@ -20,3 +20,5 @@ Run project
   npm run dev 
 ```
   
+Note: I was unable to do Containerization due to time constraint When running on local, make sure port number matches with backend port.
+CAn be changed in .env file
