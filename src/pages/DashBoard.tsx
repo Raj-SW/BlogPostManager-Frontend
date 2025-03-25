@@ -90,19 +90,6 @@ const DashBoard: React.FC = () => {
             {storedEmail}
           </p>
           {/* Responsive Search Bar */}
-          <div className="mx-auto" style={{ maxWidth: "400px" }}>
-            <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
-              <Form.Control
-                type="text"
-                placeholder="Search for articles..."
-                aria-label="Search"
-                className="me-2"
-              />
-              <Button variant="primary" type="submit">
-                <FaSearch />
-              </Button>
-            </Form>
-          </div>
         </Container>
       </section>
 

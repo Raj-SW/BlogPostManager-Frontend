@@ -83,7 +83,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onHide }) => {
       dispatch(setUser(response.resultObject));
       dispatch(authenticateUser(true));
       localStorage.setItem("token", response.resultObject.token);
-      setToastMessage("Logged in successfully! Try Login now");
+      setToastMessage("Logged in successfully!");
       setToastVariant("success");
       setShowToast(true);
       handleClose();
@@ -112,7 +112,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onHide }) => {
         confirmPassword: signupConfirmPassword,
         userName: signupUserName,
       });
-      setToastMessage("Signup successful!");
+      setToastMessage("Signup successful! Try Login now");
       setToastVariant("success");
       setShowToast(true);
       handleClose();

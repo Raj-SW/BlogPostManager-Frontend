@@ -45,7 +45,6 @@ export async function createBlogPostAsync(
   }
 }
 
-
 export async function GetBlogPostByIdAsync(blogId: string): Promise<singleBlogResponse> {
   try {
     const response = await axiosInstance.get(`Blog/GetBlogPostByBlogPostIdAsync/${blogId}`, {
@@ -96,5 +95,16 @@ export async function updateBlogByBlogIdAsync(blogId: string, blogData: blogPost
     });
   } catch (error: any) {
     throw new Error(error.response?.data?.message || 'Failed to delete blog');
+  }
+}
+
+export async function searchBlogsAsync(searchCriteria: string): Promise<multipleBlogResponse> {
+  try {
+    const response = await axiosInstance.get<multipleBlogResponse>(
+      `Blog/SearchBlogAsync?searchCriteria=${encodeURIComponent(searchCriteria)}`
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to search blogs");
   }
 }

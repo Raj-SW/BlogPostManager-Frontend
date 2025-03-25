@@ -39,7 +39,7 @@ const AppNavbar: React.FC = () => {
     setToastMessage("Signed out successfully!");
     setToastVariant("success");
     setShowToast(true);
-    navigate("/");
+    navigate("/home");
   };
 
   return (

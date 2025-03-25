@@ -1,8 +1,12 @@
+// src/pages/HomePage.tsx
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import BlogCard from "../components/BlogCard/BlogCard";
-import { getAllBlogsAsync } from "../api/blogService/BlogService";
+import {
+  getAllBlogsAsync,
+  searchBlogsAsync,
+} from "../api/blogService/BlogService";
 import { blogPost } from "../models/blogmodel/blogModels";
 import { useNavigate } from "react-router-dom";
 
@@ -10,23 +14,50 @@ const HomePage: React.FC = () => {
   const [blogs, setBlogs] = useState<blogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getAllBlogsAsync();
-        setBlogs(data.resultObject);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
+    fetchAllBlogs();
   }, []);
 
-  const handleonReadMore = (blogPostDocumentId: string) => {
+  // Loads all blogs initially
+  const fetchAllBlogs = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getAllBlogsAsync();
+      setBlogs(data.resultObject);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Call the server-side search endpoint
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      // If search term is empty, load all blogs
+      if (!searchTerm.trim()) {
+        await fetchAllBlogs();
+        return;
+      }
+      const result = await searchBlogsAsync(searchTerm);
+      setBlogs(result.resultObject);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOnReadMore = (blogPostDocumentId: string) => {
     navigate(`/blog/${blogPostDocumentId}`);
   };
 
@@ -38,15 +69,15 @@ const HomePage: React.FC = () => {
           <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
             Welcome to BlogPost, where you can create and share your blogs.
           </p>
-
-          {/* Responsive Search Bar */}
           <div className="mx-auto" style={{ maxWidth: "400px" }}>
-            <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
+            <Form className="d-flex" onSubmit={handleSearch}>
               <Form.Control
                 type="text"
                 placeholder="Search for articles..."
                 aria-label="Search"
                 className="me-2"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <Button variant="primary" type="submit">
                 <FaSearch />
@@ -61,10 +92,8 @@ const HomePage: React.FC = () => {
           <Row>
             <Col md={12}>
               <h5 className="mb-4">All posts</h5>
-
               {loading && <p>Loading blogs...</p>}
               {error && <p className="text-danger">Error: {error}</p>}
-
               {!loading && !error && (
                 <Row className="g-4">
                   {blogs.map((blog) => (
@@ -74,7 +103,7 @@ const HomePage: React.FC = () => {
                         title={blog.title}
                         excerpt={blog.excerpt}
                         onReadMore={() =>
-                          handleonReadMore(blog.blogPostDocumentId)
+                          handleOnReadMore(blog.blogPostDocumentId)
                         }
                       />
                     </Col>
