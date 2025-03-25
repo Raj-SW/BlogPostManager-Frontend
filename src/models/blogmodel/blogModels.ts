@@ -1,5 +1,5 @@
  export interface blogPost {
-  blogPostDocumentId: string | null;
+  blogPostDocumentId: string;
   title: string;
   content: string;
   excerpt: string;

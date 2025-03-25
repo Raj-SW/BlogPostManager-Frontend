@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Form, Tabs, Tab } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
-import { getAllSelfBlogsAsync } from "../api/blogService/BlogService";
+import {
+  deleteBlogByBlogIdAsync,
+  getAllSelfBlogsAsync,
+} from "../api/blogService/BlogService";
 import CreateEditBlogPost from "../components/CreateEditBlog/CreateEditBlog";
 import UserBlogsTable from "../components/UserBlogsTable/UserBlogsTable";
 import { blogPost } from "../models/blogmodel/blogModels";
@@ -11,8 +14,10 @@ const DashBoard: React.FC = () => {
   const [blogs, setBlogs] = useState<blogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [token, setToken] = React.useState<string | null>(
+    localStorage.getItem("token")
+  );
 
-  // Fetch blogs from service on mount
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -33,10 +38,17 @@ const DashBoard: React.FC = () => {
     fetchData();
   }, []);
 
-  // Handlers for blog actions
   const handleEdit = (blogId: string) => {};
-  const handleDelete = (blogId: string) => {};
-  const handleSetInactive = (blogId: string) => {};
+
+  const handleDelete = async (blogId: string) => {
+    try {
+      await deleteBlogByBlogIdAsync(blogId, token);
+      setBlogs((prev) => prev.filter((b) => b.blogPostDocumentId !== blogId));
+    } catch (err: any) {
+      console.error(err.message || "Error deleting blog");
+    }
+  };
+
   const handleOnView = (blogPostDocumentId: string) => {};
 
   return (
@@ -71,7 +83,6 @@ const DashBoard: React.FC = () => {
         </Container>
       </section>
 
-      {/* ======== MAIN CONTENT ======== */}
       <main className="py-4">
         <Container>
           <Tabs
@@ -82,12 +93,11 @@ const DashBoard: React.FC = () => {
             <Tab eventKey="myBlogs" title="My Blogs">
               <UserBlogsTable
                 blogs={blogs}
-                loading={loading}
-                error={error}
-                onEdit={handleEdit}
+                loading={false}
+                error={null}
+                onEdit={(id) => console.log("edit", id)}
                 onDelete={handleDelete}
-                onSetInactive={handleSetInactive}
-                onView={handleOnView}
+                onView={(id) => console.log("view", id)}
               />
             </Tab>
             <Tab eventKey="createBlog" title="Create Blog">

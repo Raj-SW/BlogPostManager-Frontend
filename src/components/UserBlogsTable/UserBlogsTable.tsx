@@ -1,7 +1,6 @@
-// src/components/AllBlogs/AllBlogs.tsx
 import React from "react";
 import { Table, Button, Pagination } from "react-bootstrap";
-import { FaEdit, FaTrash, FaToggleOff, FaEye } from "react-icons/fa";
+import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import { blogPost } from "../../models/blogmodel/blogModels";
 
 interface UserBlogsTableProps {
@@ -10,7 +9,6 @@ interface UserBlogsTableProps {
   error: string | null;
   onEdit: (blogId: string) => void;
   onDelete: (blogId: string) => void;
-  onSetInactive: (blogId: string) => void;
   onView(blogPostDocumentId: string): void;
 }
 
@@ -20,7 +18,6 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
   error,
   onEdit,
   onDelete,
-  onSetInactive,
   onView,
 }) => {
   return (
@@ -65,13 +62,6 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
                       onClick={() => onDelete(blog.blogPostDocumentId)}
                     >
                       <FaTrash />
-                    </Button>
-                    <Button
-                      variant="outline-secondary"
-                      size="sm"
-                      onClick={() => onSetInactive(blog.blogPostDocumentId)}
-                    >
-                      <FaToggleOff />
                     </Button>
                     <Button
                       variant="outline-info"

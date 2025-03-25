@@ -73,15 +73,15 @@ export async function getAllSelfBlogsAsync(token: string): Promise<multipleBlogR
   }
 }
 
-export async function deleteBlogByBlogIdAsync(blogId: number, token: string): Promise<void> {
+export async function deleteBlogByBlogIdAsync(blogId: string, token: string | null): Promise<void> {
   try {
-    await axiosInstance.delete(`/Blog/DeletePostAsync/${blogId}`, {
+    await axiosInstance.post(`Blog/DeletePostAsync/${blogId}`, {}, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
     });
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || 'Failed to delete blog');
+    console.error(error);
   }
 }
 

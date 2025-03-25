@@ -13,7 +13,7 @@ const initialState: BlogState = {
   error: null,
 };
 
-export const deleteBlogAsync = createAsyncThunk<void, number, { state: RootState }>(
+export const deleteBlogAsync = createAsyncThunk<void, string, { state: RootState }>(
   'blog/delete',
   async (blogId, thunkAPI) => {
     const state = thunkAPI.getState();
