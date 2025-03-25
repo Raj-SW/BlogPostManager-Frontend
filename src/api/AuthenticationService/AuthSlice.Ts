@@ -1,4 +1,3 @@
-// src/store/authSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {

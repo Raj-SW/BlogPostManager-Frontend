@@ -1,4 +1,3 @@
-// src/components/AuthModal/AuthModal.tsx
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -22,15 +21,12 @@ interface AuthModalProps {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ show, onHide }) => {
-  // Toggle between Login and Sign Up
   const [isSignUp, setIsSignUp] = useState(false);
 
-  // Login form states
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
 
-  // Sign Up form states
   const [signupUserName, setSignupUserName] = useState("");
   const [signupFirstName, setSignupFirstName] = useState("");
   const [signupLastName, setSignupLastName] = useState("");
@@ -41,7 +37,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onHide }) => {
   const [showSignUpConfirmPassword, setShowSignUpConfirmPassword] =
     useState(false);
 
-  // Toast states
   const [toastMessage, setToastMessage] = useState("");
   const [toastVariant, setToastVariant] = useState<"success" | "danger">(
     "success"
@@ -50,15 +45,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onHide }) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  // Close modal & reset fields
   const handleClose = () => {
     onHide();
     setIsSignUp(false);
-    // Reset login states
     setLoginEmail("");
     setLoginPassword("");
     setShowLoginPassword(false);
-    // Reset signup states
     setSignupUserName("");
     setSignupFirstName("");
     setSignupLastName("");
@@ -71,7 +63,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onHide }) => {
 
   const toggleSignUp = () => setIsSignUp((prev) => !prev);
 
-  // Handle Login
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -94,7 +85,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ show, onHide }) => {
     }
   };
 
-  // Handle Sign Up
   const handleSignupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (signupPassword !== signupConfirmPassword) {

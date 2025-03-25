@@ -1,8 +1,6 @@
-// src/components/AuthModal/LoginForm.tsx
-
-import React from 'react';
-import { Form, Button, InputGroup } from 'react-bootstrap';
-import { FaEnvelope, FaKey, FaEye, FaEyeSlash } from 'react-icons/fa';
+import React from "react";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { FaEnvelope, FaKey, FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface LoginFormProps {
   email: string;
@@ -48,13 +46,16 @@ const LoginForm: React.FC<LoginFormProps> = ({
             <FaKey />
           </InputGroup.Text>
           <Form.Control
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
             required
           />
-          <InputGroup.Text style={{ cursor: 'pointer' }} onClick={onTogglePassword}>
+          <InputGroup.Text
+            style={{ cursor: "pointer" }}
+            onClick={onTogglePassword}
+          >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </InputGroup.Text>
         </InputGroup>

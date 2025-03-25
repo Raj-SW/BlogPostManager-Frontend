@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Button, Pagination } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import { blogPost } from "../../models/blogmodel/blogModels";
 

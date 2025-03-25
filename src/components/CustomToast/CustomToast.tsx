@@ -1,4 +1,3 @@
-// src/components/CustomToast.tsx
 import React from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 

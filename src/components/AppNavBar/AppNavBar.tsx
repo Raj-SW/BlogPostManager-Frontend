@@ -1,4 +1,3 @@
-// src/components/AppNavbar/AppNavbar.tsx
 import React, { useState } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { FiUser } from "react-icons/fi";

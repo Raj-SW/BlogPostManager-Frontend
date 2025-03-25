@@ -1,11 +1,9 @@
-// src/components/AuthModal/SignupForm.tsx
-
 import React from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaEnvelope, FaKey, FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface SignupFormProps {
-  username: string; // <-- New field
+  username: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -13,7 +11,7 @@ interface SignupFormProps {
   confirmPassword: string;
   showPassword: boolean;
   showConfirmPassword: boolean;
-  onUsernameChange: (value: string) => void; // <-- New handler
+  onUsernameChange: (value: string) => void;
   onFirstNameChange: (value: string) => void;
   onLastNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;

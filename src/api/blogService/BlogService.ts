@@ -17,19 +17,15 @@ export async function createBlogPostAsync(
 ): Promise<void> {
   const formData = new FormData();
 
-  // Append "simple" fields
   formData.append("title", blogData.title);
   formData.append("excerpt", blogData.excerpt);
   formData.append("content", blogData.content);
 
-  // Append each tag under the same field name ("tags")
   blogData.tags.forEach(tag => {
     formData.append("tags", tag);
   });
 
-  // Append file if we have one
   if (thumbnail) {
-    // This must match 'public IFormFile file { get; set; }' in the model
     formData.append("file", thumbnail);
   }
 
@@ -58,7 +54,6 @@ export async function GetBlogPostByIdAsync(blogId: string): Promise<singleBlogRe
 
 export async function getAllSelfBlogsAsync(token: string): Promise<multipleBlogResponse> {
   try {
-    // Include the token in the Authorization header
     const response = await axiosInstance.get<multipleBlogResponse>(
       'Blog/GetAllBlogPostByUserNameAsync',
       {

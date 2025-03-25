@@ -1,17 +1,17 @@
-// src/App.tsx
-import { Outlet } from 'react-router-dom';
-import AppNavbar from '../src/components/AppNavBar/AppNavBar';
-import Footer from './components/Footer/Footer';
-import { useDispatch } from 'react-redux';
-import { setToken, authenticateUser } from './api/authenticationService/AuthSlice';
-import { AppDispatch } from './Service/statemanagement/store';
-
-
+import { Outlet } from "react-router-dom";
+import AppNavbar from "../src/components/AppNavBar/AppNavBar";
+import Footer from "./components/Footer/Footer";
+import { useDispatch } from "react-redux";
+import {
+  setToken,
+  authenticateUser,
+} from "./api/authenticationService/AuthSlice";
+import { AppDispatch } from "./Service/statemanagement/store";
 
 function App() {
-const dispatch = useDispatch<AppDispatch>(); // dispatch is correctly typed
+  const dispatch = useDispatch<AppDispatch>();
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (token) {
     dispatch(setToken(token));
     dispatch(authenticateUser(true));
@@ -19,8 +19,8 @@ const dispatch = useDispatch<AppDispatch>(); // dispatch is correctly typed
   return (
     <>
       <AppNavbar />
-       <Outlet />
-       <Footer/>
+      <Outlet />
+      <Footer />
     </>
   );
 }

@@ -42,9 +42,8 @@ const IndividualBlogPostPage: React.FC = () => {
     return <Container className="py-5">Loading...</Container>;
   }
 
-  // If still null after loading, navigate to not found
   if (!blog) {
-    return null; // or navigate("/notfound")
+    return null;
   }
 
   return (
@@ -64,7 +63,6 @@ const IndividualBlogPostPage: React.FC = () => {
           />
         </div>
       )}
-      {/* Render the content (HTML) if your content is stored as HTML */}
       <div dangerouslySetInnerHTML={{ __html: blog.content }} />
     </Container>
   );

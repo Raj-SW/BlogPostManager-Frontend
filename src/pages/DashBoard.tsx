@@ -1,7 +1,5 @@
-// src/pages/DashBoard.tsx
 import React, { useEffect, useState } from "react";
 import { Container, Button, Form, Tabs, Tab } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
 import {
   deleteBlogByBlogIdAsync,
   getAllSelfBlogsAsync,
@@ -18,10 +16,8 @@ const DashBoard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Retrieve the token from local storage
   const token = localStorage.getItem("token");
 
-  // Retrieve user details from Redux (if available) or fallback to localStorage
   const user = useAppSelector((state: RootState) => state.auth.user);
   const storedUserName =
     user?.userName || localStorage.getItem("userName") || "User name here";
@@ -34,7 +30,6 @@ const DashBoard: React.FC = () => {
 
   useEffect(() => {
     if (!token) {
-      // Navigate to unauthorized page if no token is present
       navigate("/unauthorized");
       return;
     }
@@ -55,7 +50,7 @@ const DashBoard: React.FC = () => {
   }, [token, navigate]);
 
   const handleEdit = (blogId: string) => {
-    // Implement edit logic here if needed
+    // TODO: handle edit of post here
   };
 
   const handleDelete = async (blogId: string) => {
@@ -80,16 +75,12 @@ const DashBoard: React.FC = () => {
           <h1 className="display-5 fw-bold mb-3">
             Hello user @{storedUserName}
           </h1>
-          {/* <h3 className="display-6 fw-bold mb-3">
-            {storedFirstName} {storedLastName}
-          </h3> */}
           <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
             Welcome to your dashboard.
           </p>
           <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
             {storedEmail}
           </p>
-          {/* Responsive Search Bar */}
         </Container>
       </section>
 

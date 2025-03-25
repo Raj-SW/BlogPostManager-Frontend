@@ -1,4 +1,3 @@
-// src/pages/UnauthorizedPage.tsx
 import React from "react";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +6,7 @@ const UnauthorizedPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleGoHome = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   return (

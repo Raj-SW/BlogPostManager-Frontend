@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
@@ -22,7 +21,6 @@ const HomePage: React.FC = () => {
     fetchAllBlogs();
   }, []);
 
-  // Loads all blogs initially
   const fetchAllBlogs = async () => {
     setLoading(true);
     setError(null);
@@ -36,14 +34,12 @@ const HomePage: React.FC = () => {
     }
   };
 
-  // Call the server-side search endpoint
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
-      // If search term is empty, load all blogs
       if (!searchTerm.trim()) {
         await fetchAllBlogs();
         return;
