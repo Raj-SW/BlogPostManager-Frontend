@@ -59,7 +59,7 @@ const CreateEditBlogPost: React.FC = () => {
       excerpt,
       content,
       tags: tags.split(",").map((tag) => tag.trim()),
-      blogPostDocumentId: "",
+      blogId: "",
       createdBy: "",
       likes: 0,
       isFeatured: false,

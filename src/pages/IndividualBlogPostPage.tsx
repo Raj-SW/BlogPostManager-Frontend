@@ -53,10 +53,10 @@ const IndividualBlogPostPage: React.FC = () => {
         Created by {blog.createdBy} on{" "}
         {new Date(blog.createdDate).toLocaleDateString()}
       </p>
-      {blog.thumbNailLink && (
+      {blog.thumbnailLink && (
         <div className="my-4">
           <img
-            src={blog.thumbNailLink}
+            src={blog.thumbnailLink}
             alt={blog.title}
             className="img-fluid"
             style={{ maxHeight: "400px", objectFit: "cover" }}

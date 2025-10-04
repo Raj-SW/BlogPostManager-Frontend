@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 
 export interface BlogCardProps {
+  key: string;
   image?: string;
   title: string;
   excerpt: string;

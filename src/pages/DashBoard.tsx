@@ -57,7 +57,7 @@ const DashBoard: React.FC = () => {
     try {
       await deleteBlogByBlogIdAsync(blogId, token!);
       setBlogs((prev) =>
-        prev.filter((blog) => blog.blogPostDocumentId !== blogId)
+        prev.filter((blog) => blog.blogId !== blogId)
       );
     } catch (err: any) {
       console.error(err.message || "Error deleting blog");

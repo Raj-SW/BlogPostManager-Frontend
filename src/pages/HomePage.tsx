@@ -90,21 +90,18 @@ const HomePage: React.FC = () => {
               <h5 className="mb-4">All posts</h5>
               {loading && <p>Loading blogs...</p>}
               {error && <p className="text-danger">Error: {error}</p>}
-              {!loading && !error && (
-                <Row className="g-4">
-                  {blogs.map((blog) => (
-                    <Col md={6} lg={4} key={blog.blogPostDocumentId}>
-                      <BlogCard
-                        image={blog.thumbNailLink}
-                        title={blog.title}
-                        excerpt={blog.excerpt}
-                        onReadMore={() =>
-                          handleOnReadMore(blog.blogPostDocumentId)
-                        }
-                      />
-                    </Col>
-                  ))}
-                </Row>
+                {blogs.map((blog:blogPost)=>{
+                  return <BlogCard
+                    key={blog.blogId}
+                    image={blog.thumbnailLink}
+                    title={blog.title}
+                    excerpt={blog.excerpt}
+                    alt={blog.title}
+                    onReadMore={() => handleOnReadMore(blog.blogId)}
+                  />
+                })}
+              {!loading && !error && blogs.length === 0 && (
+                <p className="text-muted">No blogs found.</p>
               )}
             </Col>
           </Row>
@@ -119,11 +116,12 @@ const HomePage: React.FC = () => {
           </p>
           <Form className="d-inline-flex flex-wrap justify-content-center gap-2">
             <Form.Control
+              key="newsletter-email"
               type="email"
               placeholder="Enter your email address"
               className="w-auto"
             />
-            <Button variant="success">Subscribe to newsletter</Button>
+            <Button key="newsletter-subscribe" variant="success">Subscribe to newsletter</Button>
           </Form>
         </Container>
       </section>

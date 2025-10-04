@@ -1,5 +1,5 @@
  export interface blogPost {
-  blogPostDocumentId: string;
+  blogId: string;
   title: string;
   content: string;
   excerpt: string;
@@ -8,7 +8,7 @@
   likes: number;
   isFeatured: boolean;
   tags: string[];
-  thumbNailLink?: string;
+  thumbnailLink?: string;
 }
 
 export interface singleBlogResponse {

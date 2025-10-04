@@ -38,10 +38,10 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
             </thead>
             <tbody>
               {blogs.map((blog) => (
-                <tr key={blog.blogPostDocumentId}>
+                <tr key={blog.blogId}>
                   <td>
                     <img
-                      src={blog.thumbNailLink}
+                      src={blog.thumbnailLink}
                       style={{ width: "80px", height: "auto" }}
                     />
                   </td>
@@ -51,7 +51,7 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
                       variant="outline-primary"
                       size="sm"
                       className="me-2"
-                      onClick={() => onEdit(blog.blogPostDocumentId)}
+                      onClick={() => onEdit(blog.blogId)}
                     >
                       <FaEdit />
                     </Button>
@@ -59,7 +59,7 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
                       variant="outline-danger"
                       size="sm"
                       className="me-2"
-                      onClick={() => onDelete(blog.blogPostDocumentId)}
+                      onClick={() => onDelete(blog.blogId)}
                     >
                       <FaTrash />
                     </Button>
@@ -67,7 +67,7 @@ const UserBlogsTable: React.FC<UserBlogsTableProps> = ({
                       variant="outline-info"
                       size="sm"
                       className="ms-2"
-                      onClick={() => onView(blog.blogPostDocumentId)}
+                      onClick={() => onView(blog.blogId)}
                     >
                       <FaEye />
                     </Button>
