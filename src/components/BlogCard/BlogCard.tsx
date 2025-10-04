@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, CardFooter, CardImgOverlay } from "react-bootstrap";
+import { Card, Button} from "react-bootstrap";
 import "./BlogCard.css";
 export interface BlogCardProps {
   image?: string;
