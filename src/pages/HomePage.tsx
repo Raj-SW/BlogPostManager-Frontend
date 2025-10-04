@@ -90,19 +90,19 @@ const HomePage: React.FC = () => {
               <h5 className="mb-4">All posts</h5>
               {loading && <p>Loading blogs...</p>}
               {error && <p className="text-danger">Error: {error}</p>}
-                {blogs.map((blog:blogPost)=>{
-                  return <BlogCard
-                    key={blog.blogId}
+              <Row className="d-flex justify-content-left">
+              {blogs.map((blog, index) => (
+                <Col key={blog.blogId || index} className="d-flex justify-content-center m-1 p-0">
+                  <BlogCard
                     image={blog.thumbnailLink}
                     title={blog.title}
                     excerpt={blog.excerpt}
                     alt={blog.title}
                     onReadMore={() => handleOnReadMore(blog.blogId)}
                   />
-                })}
-              {!loading && !error && blogs.length === 0 && (
-                <p className="text-muted">No blogs found.</p>
-              )}
+                </Col>
+              ))}
+            </Row>
             </Col>
           </Row>
         </Container>

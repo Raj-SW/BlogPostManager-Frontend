@@ -59,7 +59,7 @@ const IndividualBlogPostPage: React.FC = () => {
             src={blog.thumbnailLink}
             alt={blog.title}
             className="img-fluid"
-            style={{ maxHeight: "400px", objectFit: "cover" }}
+            
           />
         </div>
       )}

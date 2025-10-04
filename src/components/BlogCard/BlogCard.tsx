@@ -1,8 +1,7 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
-
+import { Card, Button, CardFooter, CardImgOverlay } from "react-bootstrap";
+import "./BlogCard.css";
 export interface BlogCardProps {
-  key: string;
   image?: string;
   title: string;
   excerpt: string;
@@ -18,15 +17,17 @@ const BlogCard: React.FC<BlogCardProps> = ({
   onReadMore,
 }) => {
   return (
-    <Card className="h-100 border-0 shadow-sm">
+    <Card className="blogCard" >
+        <Card.Title>{title}</Card.Title>
       {image && <Card.Img variant="top" src={image} alt={alt} />}
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
         <Card.Text className="text-muted">{excerpt}</Card.Text>
+      </Card.Body>
+      <Card.Footer>
         <Button variant="outline-primary" size="sm" onClick={onReadMore}>
           Read More
         </Button>
-      </Card.Body>
+      </Card.Footer>
     </Card>
   );
 };
